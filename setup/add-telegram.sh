@@ -15,7 +15,7 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 # Keep in sync with .claude/skills/add-telegram/SKILL.md.
-ADAPTER_VERSION="@chat-adapter/telegram@4.26.0"
+ADAPTER_VERSION="@chat-adapter/telegram@4.29.0"
 
 # Resolve which remote carries the channels branch — handles forks where
 # upstream lives on a different remote than `origin`.
@@ -70,9 +70,7 @@ if need_install; then
   for f in \
     src/channels/telegram.ts \
     src/channels/telegram-pairing.ts \
-    src/channels/telegram-pairing.test.ts \
-    src/channels/telegram-markdown-sanitize.ts \
-    src/channels/telegram-markdown-sanitize.test.ts
+    src/channels/telegram-pairing.test.ts
   do
     git show "${CHANNELS_BRANCH}:$f" > "$f"
   done
