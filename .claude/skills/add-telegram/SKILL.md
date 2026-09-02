@@ -24,17 +24,23 @@ Otherwise continue. Every step below is safe to re-run.
 
 ### 1. Fetch the channels branch
 
+The `channels` branch only lives on the upstream repo. In a fork, `origin` is
+your own copy and upstream sits on a different remote, so a hardcoded
+`git fetch origin channels` fails. Resolve the remote first:
+
 ```bash
-git fetch origin channels
+source setup/lib/channels-remote.sh
+CHANNELS_REMOTE=$(resolve_channels_remote)   # override with NANOCLAW_CHANNELS_REMOTE
+git fetch "$CHANNELS_REMOTE" channels
 ```
 
 ### 2. Copy the adapter, helpers, tests, and setup step
 
 ```bash
-git show origin/channels:src/channels/telegram.ts                        > src/channels/telegram.ts
-git show origin/channels:src/channels/telegram-pairing.ts                > src/channels/telegram-pairing.ts
-git show origin/channels:src/channels/telegram-pairing.test.ts           > src/channels/telegram-pairing.test.ts
-git show origin/channels:setup/pair-telegram.ts                          > setup/pair-telegram.ts
+git show "$CHANNELS_REMOTE/channels:src/channels/telegram.ts"              > src/channels/telegram.ts
+git show "$CHANNELS_REMOTE/channels:src/channels/telegram-pairing.ts"      > src/channels/telegram-pairing.ts
+git show "$CHANNELS_REMOTE/channels:src/channels/telegram-pairing.test.ts" > src/channels/telegram-pairing.test.ts
+git show "$CHANNELS_REMOTE/channels:setup/pair-telegram.ts"                > setup/pair-telegram.ts
 ```
 
 ### 3. Append the self-registration import
@@ -56,7 +62,7 @@ In `setup/index.ts`, add this entry to the `STEPS` map (right after the `registe
 ### 5. Install the adapter package (pinned)
 
 ```bash
-pnpm install @chat-adapter/telegram@4.27.0
+pnpm install @chat-adapter/telegram@4.29.0
 ```
 
 ### 6. Build

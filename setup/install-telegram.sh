@@ -12,6 +12,12 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+# Resolve which remote carries the channels branch — handles forks where
+# upstream lives on a different remote than `origin`.
+# shellcheck source=setup/lib/channels-remote.sh
+source "$PROJECT_ROOT/setup/lib/channels-remote.sh"
+CHANNELS_REMOTE=$(resolve_channels_remote)
+
 echo "=== NANOCLAW SETUP: INSTALL_TELEGRAM ==="
 
 CHANNEL_FILES=(
@@ -37,11 +43,11 @@ if ! $needs_install; then
 fi
 
 echo "STEP: fetch-channels-branch"
-git fetch origin channels
+git fetch "$CHANNELS_REMOTE" channels
 
 echo "STEP: copy-files"
 for f in "${CHANNEL_FILES[@]}"; do
-  git show "origin/channels:$f" > "$f"
+  git show "${CHANNELS_REMOTE}/channels:$f" > "$f"
 done
 
 echo "STEP: register-import"
@@ -61,7 +67,7 @@ if ! grep -q "'pair-telegram':" setup/index.ts; then
 fi
 
 echo "STEP: pnpm-install"
-pnpm install @chat-adapter/telegram@4.26.0
+pnpm install @chat-adapter/telegram@4.29.0
 
 echo "STEP: pnpm-build"
 pnpm run build
