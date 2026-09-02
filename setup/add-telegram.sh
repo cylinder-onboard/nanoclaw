@@ -70,9 +70,7 @@ if need_install; then
   for f in \
     src/channels/telegram.ts \
     src/channels/telegram-pairing.ts \
-    src/channels/telegram-pairing.test.ts \
-    src/channels/telegram-markdown-sanitize.ts \
-    src/channels/telegram-markdown-sanitize.test.ts
+    src/channels/telegram-pairing.test.ts
   do
     git show "${CHANNELS_BRANCH}:$f" > "$f"
   done

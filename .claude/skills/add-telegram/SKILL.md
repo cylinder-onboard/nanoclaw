@@ -15,7 +15,7 @@ NanoClaw doesn't ship channels in trunk. This skill copies the Telegram adapter,
 
 Skip to **Credentials** if all of these are already in place:
 
-- `src/channels/telegram.ts`, `telegram-pairing.ts`, `telegram-markdown-sanitize.ts` (and their `.test.ts` siblings) all exist
+- `src/channels/telegram.ts`, `telegram-pairing.ts` (and `telegram-pairing.test.ts`) all exist
 - `src/channels/index.ts` contains `import './telegram.js';`
 - `setup/pair-telegram.ts` exists and `setup/index.ts`'s `STEPS` map contains `'pair-telegram':`
 - `@chat-adapter/telegram` is listed in `package.json` dependencies
@@ -34,8 +34,6 @@ git fetch origin channels
 git show origin/channels:src/channels/telegram.ts                        > src/channels/telegram.ts
 git show origin/channels:src/channels/telegram-pairing.ts                > src/channels/telegram-pairing.ts
 git show origin/channels:src/channels/telegram-pairing.test.ts           > src/channels/telegram-pairing.test.ts
-git show origin/channels:src/channels/telegram-markdown-sanitize.ts      > src/channels/telegram-markdown-sanitize.ts
-git show origin/channels:src/channels/telegram-markdown-sanitize.test.ts > src/channels/telegram-markdown-sanitize.test.ts
 git show origin/channels:setup/pair-telegram.ts                          > setup/pair-telegram.ts
 ```
 

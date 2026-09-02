@@ -18,8 +18,6 @@ CHANNEL_FILES=(
   src/channels/telegram.ts
   src/channels/telegram-pairing.ts
   src/channels/telegram-pairing.test.ts
-  src/channels/telegram-markdown-sanitize.ts
-  src/channels/telegram-markdown-sanitize.test.ts
   setup/pair-telegram.ts
 )
 
