@@ -131,14 +131,18 @@ Otherwise continue. Every step below is safe to re-run.
 ### 1. Fetch the channels branch
 
 ```bash
-git fetch origin channels
+# The channels branch lives on the upstream repo, which in a fork is not
+# `origin`. Resolve the right remote first.
+source setup/lib/channels-remote.sh
+CHANNELS_REMOTE=$(resolve_channels_remote)   # or set NANOCLAW_CHANNELS_REMOTE
+git fetch "$CHANNELS_REMOTE" channels
 ```
 
 ### 2. Copy the adapter and tests
 
 ```bash
-git show origin/channels:src/channels/signal.ts      > src/channels/signal.ts
-git show origin/channels:src/channels/signal.test.ts > src/channels/signal.test.ts
+git show "$CHANNELS_REMOTE/channels:src/channels/signal.ts"      > src/channels/signal.ts
+git show "$CHANNELS_REMOTE/channels:src/channels/signal.test.ts" > src/channels/signal.test.ts
 ```
 
 ### 3. Append the self-registration import
