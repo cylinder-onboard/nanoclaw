@@ -12,9 +12,20 @@ import Database from 'better-sqlite3';
  * Verifies the two modes (SELECT prints rows in sqlite3 default "list"
  * format; mutation runs via db.exec) and a few edge cases that real
  * skill invocations rely on.
+ *
+ * Every test shells out via `pnpm exec tsx` (the invocation CLAUDE.md
+ * documents), which costs ~2s per call for pnpm's overhead plus tsx
+ * transpiling q.ts. That is already near vitest's 5s default, and when the
+ * full suite runs these files in parallel it goes over — the tests then fail
+ * on timeout rather than on behavior. Hence the generous per-file budget
+ * below: still low enough to catch a genuine hang, high enough that load
+ * alone can't trip it. Scoped to this describe so the 5s default keeps
+ * applying everywhere else.
  */
 
 const Q = path.resolve(__dirname, 'q.ts');
+
+const SUBPROCESS_TIMEOUT_MS = 30_000;
 
 describe('scripts/q.ts', () => {
   let tempDir: string;
@@ -103,4 +114,4 @@ describe('scripts/q.ts', () => {
     expect(r.status).toBe(2);
     expect(r.stderr).toMatch(/Usage/);
   });
-});
+}, SUBPROCESS_TIMEOUT_MS);
